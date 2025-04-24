@@ -9,6 +9,8 @@ This is the client-side UI Application. Users will download the .zip file and ru
 * Edit Orders
 * View Performance Analytics
 
+The .zip file with the .exe can be found in this repo.
+
 # API
 This is the API which serves the application. While these files are included there is no need to download and run them because this API as well as the Database is running in Azure cloud. This is a RESTful API is built in .NET Core.
 
