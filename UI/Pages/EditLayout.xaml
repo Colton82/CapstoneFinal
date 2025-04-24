@@ -1,0 +1,85 @@
+﻿<Page x:Class="KDSUI.Pages.EditLayout"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:KDSUI.ViewModels"
+      xmlns:local="clr-namespace:KDSUI.Pages"
+      mc:Ignorable="d" 
+      Title="Edit Layout"
+      Background="#f4f4f4">
+
+    <!-- Set the ViewModel for this page -->
+    <Page.DataContext>
+        <vm:EditLayoutViewModel/>
+    </Page.DataContext>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- "Add" button to add a new station to the list -->
+        <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,10">
+            <Button Width="120" Height="40" 
+                    BorderBrush="#0078D7" Foreground="White" Background="#0078D7" FontWeight="Bold"
+                    Cursor="Hand" Command="{Binding AddStationCommand}">
+                <TextBlock Text="Add"/>
+            </Button>
+        </StackPanel>
+
+        <!-- "Back" button to return to the previous page -->
+        <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,10,10">
+            <Button Width="120" Height="40" Background="Transparent" 
+                    BorderBrush="#0078D7" Foreground="#0078D7" FontWeight="Bold"
+                    Cursor="Hand" Command="{Binding GoBackCommand}">
+                <TextBlock Text="Back"/>
+            </Button>
+        </StackPanel>
+
+        <!-- Main section containing the editable list of stations -->
+        <Border Grid.Row="1" Grid.Column="0" Margin="10" Padding="20" Background="White" CornerRadius="10"
+                BorderBrush="LightGray" BorderThickness="1">
+            <StackPanel>
+
+                <!-- Header text for the stations list -->
+                <TextBlock Text="Stations" FontSize="20" FontWeight="Bold" Foreground="Black" 
+                           TextAlignment="Center" Margin="0,0,0,10"/>
+
+                <!-- List of station names with drag-and-drop and delete functionality -->
+                <ListBox ItemsSource="{Binding Stations}" AllowDrop="True"
+                         IsEnabled="{Binding CanEditStations}"
+                         PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
+                         PreviewMouseMove="ListBox_PreviewMouseMove"
+                         Drop="ListBox_Drop"
+                         Background="White"
+                         BorderBrush="Gray"
+                         Foreground="Black">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Displays the station name -->
+                                <TextBlock Text="{Binding}" FontSize="16" Foreground="Black" 
+                                           VerticalAlignment="Center" Margin="10"/>
+
+                                <!-- Delete button to remove the station -->
+                                <Button Content="✖" Width="30" Height="30" Grid.Column="1"
+                                        Background="Transparent" Foreground="Red"
+                                        BorderBrush="Transparent" FontSize="14"
+                                        Command="{Binding DataContext.RemoveStationCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
